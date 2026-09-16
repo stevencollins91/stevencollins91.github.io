@@ -13,9 +13,10 @@
   <link rel="apple-touch-icon" href="logo.svg">
   <title>Subbie Calculator Australia</title>
   <link rel="stylesheet" href="style.css">
+  <style>.pay-mode{display:none!important}</style>
 </head>
 <body>
 <div id="app-loading" style="padding:24px;font-family:system-ui,sans-serif">Loading Subbie Calculator…</div>
-<script>Promise.all(['base.html','forward.html','reverse.html','employer.html','ending.html'].map(f=>fetch(f).then(r=>{if(!r.ok)throw new Error('Could not load '+f);return r.text()}))).then(parts=>{document.body.innerHTML=parts.join('');const s=document.createElement('script');s.src='app.js';document.body.appendChild(s)}).catch(()=>{document.getElementById('app-loading').textContent='Could not load Subbie Calculator. Please refresh the page.'})</script>
+<script>Promise.all(['base.html','forward.html','reverse.html','employer.html','ending.html'].map(f=>fetch(f).then(r=>{if(!r.ok)throw new Error('Could not load '+f);return r.text()}))).then(parts=>{document.body.innerHTML=parts.join('');const casualHelp=document.querySelector('#fCasual')?.closest('label')?.querySelector('.help');if(casualHelp)casualHelp.textContent='Casual loading is applied to the base hourly rate. Casual status also adjusts paid leave.';const s=document.createElement('script');s.src='app.js';document.body.appendChild(s)}).catch(()=>{document.getElementById('app-loading').textContent='Could not load Subbie Calculator. Please refresh the page.'})</script>
 </body>
 </html>
