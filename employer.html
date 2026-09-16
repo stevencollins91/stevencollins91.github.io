@@ -1,0 +1,82 @@
+  <!-- EMPLOYER RATE CALCULATOR -->
+  <section class="calc-panel" id="panel-employer" hidden>
+    <section class="card">
+      <div class="section-top">
+        <div>
+          <h2>What to charge for an employee</h2>
+          <div class="help">Estimate the true employee cost and a charge-out rate.</div>
+        </div>
+        <span class="mode-pill">Employer</span>
+      </div>
+      <div class="pay-mode" role="group" aria-label="Wage entry method">
+        <button type="button" data-pay-prefix="e" data-pay-mode="hourly" aria-pressed="true">Hourly rate</button>
+        <button type="button" data-pay-prefix="e" data-pay-mode="weekly" aria-pressed="false">Weekly gross wages</button>
+      </div>
+      <label id="eWeeklyField" hidden style="display:block;margin-bottom:16px">
+        <span class="label">Gross wages for the week ($)</span>
+        <input id="eWeeklyGrossInput" type="number" min="0" step="0.01" aria-describedby="eWeeklyHelp">
+        <div class="help" id="eWeeklyHelp">Total before tax, including overtime, casual loading and allowances, excluding employer super. Enter any allowances below as the portion already included in this total. Keep your hours below so we can estimate the ordinary and overtime split.</div>
+      </label>
+      <div id="ePayError" class="notice" role="alert" hidden></div>
+      <div class="grid two" style="margin-top:14px">
+        <label id="eHourlyField"><span class="label">Employee base rate per hour ($)</span><input id="eRate" type="number" min="0" step="0.5" value="45"></label>
+        <label><span class="label">Ordinary hours</span><input id="eOrdinaryHours" type="number" min="0" step="0.5" value="40"></label>
+        <label><span class="label">Overtime hours</span><input id="eHalfHours" type="number" min="0" step="0.5" value="10"></label>
+        <label><span class="label">Overtime rate ($/hr)</span><input id="eOvertimeRate" type="number" min="0" step="0.01" value="67.50"><div class="help">Enter the actual hourly overtime rate paid to the employee.</div></label>
+        <label><span class="label">Double-time hours</span><input id="eDoubleHours" type="number" min="0" step="0.5" value="0"></label>
+        <label><span class="label">Double-time rate ($/hr)</span><input id="eDoubleTimeRate" type="number" min="0" step="0.01" value="90.00"><div class="help">Enter the actual hourly double-time rate paid to the employee.</div></label>
+        <label style="grid-column:1/-1"><span class="label">Weekly allowances ($)</span><input id="eAllowances" type="number" min="0" step="5" value="250"></label>
+      </div>
+      <div class="grid two" style="margin-top:14px">
+        <label class="check"><input id="eCasual" type="checkbox"><span><strong>Employee is casual</strong></span></label>
+        <label><span class="label">Casual loading %</span><input id="eCasualRate" type="number" min="0" max="100" step="0.5" value="25"></label>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Target profit margin</h2>
+      <div class="help" style="margin-bottom:12px">Set the profit margin you want the business to make on revenue.</div>
+      <label><span class="label">Target profit margin %</span><input id="eMargin" type="number" min="0" max="80" step="0.5" value="15"><div class="help">This is a margin on revenue, not a simple markup.</div></label>
+    </section>
+    <section class="card hero-card">
+      <div class="stat-title">What to charge per hour</div>
+      <div id="eChargeRate" class="big accent">—</div>
+      <div class="help">Per billable hour, before GST. Includes the entered employment costs and the target profit margin set above.</div>
+      <div class="grid four" style="margin-top:14px">
+        <div><div class="stat-title">Gross employee working week</div><div id="eGrossWeek" class="medium">—</div></div>
+        <div><div class="stat-title">Annual employment cost</div><div id="eAnnualCost" class="medium">—</div></div>
+        <div><div class="stat-title">Cost per billable hour</div><div id="eCostHour" class="medium">—</div></div>
+        <div><div class="stat-title">Charge-out incl. GST</div><div id="eWithGst" class="medium">—</div></div>
+      </div>
+    </section>
+    <details class="card" open>
+      <summary>Employer cost settings</summary>
+      <div class="grid two" style="margin-top:14px">
+        <label><span class="label">Super %</span><input id="eSuperRate" type="number" min="0" max="30" step="0.1" value="12"></label>
+        <label><span class="label">Annual leave days</span><input id="eLeaveDays" type="number" min="0" max="365" step="0.5" value="20"><div class="help">Default: 20 working days. Uses your normal working days per week to calculate leave pay.</div></label>
+        <label><span class="label">Paid public holiday days</span><input id="ePublicHolidayDays" type="number" min="0" max="20" step="1" value="10"><div class="help">Default: 10. Edit for the relevant state/territory and year.</div></label>
+        <label><span class="label">Normal working days per week</span><input id="eWorkingDays" type="number" min="1" max="7" step="1" value="5"></label>
+        <label><span class="label">Leave loading %</span><input id="eLeaveLoading" type="number" min="0" max="100" step="0.5" value="0"><div class="help">Default: 0%.</div></label>
+        <label><span class="label">Billable / working weeks</span><input id="eBillableWeeks" type="number" min="1" max="52" step="1" value="48"></label>
+        <label><span class="label">Workers comp / insurance %</span><input id="eWorkersComp" type="number" min="0" max="50" step="0.1" value="5"></label>
+        <label><span class="label">Payroll tax %</span><input id="ePayrollTaxRate" type="number" min="0" max="20" step="0.01" value="0"><div class="help">Enter your applicable state/territory rate if the business is liable.</div></label>
+        <label><span class="label">Other employer overhead %</span><input id="eOtherOverhead" type="number" min="0" max="50" step="0.5" value="5"></label>
+      </div>
+    </details>
+    <section class="card">
+      <h2>Employer cost build</h2>
+      <div class="rows grid two">
+        <div class="row"><span>Working wages</span><strong id="eWorkingWages">—</strong></div>
+        <div class="row"><span>Annual allowances</span><strong id="eAnnualAllowances">—</strong></div>
+        <div class="row"><span>Paid annual leave</span><strong id="ePaidLeave">—</strong></div>
+        <div class="row"><span>Paid public holiday value</span><strong id="ePublicHolidayValue">—</strong></div>
+        <div class="row"><span>Public holiday non-billable hours</span><strong id="ePublicHolidayHours">—</strong></div>
+        <div class="row"><span>Leave loading</span><strong id="eLeaveLoadingValue">—</strong></div>
+        <div class="row"><span>Super</span><strong id="eSuperValue">—</strong></div>
+        <div class="row"><span>Workers comp / insurance allowance</span><strong id="eWorkersCompValue">—</strong></div>
+        <div class="row"><span>Payroll tax allowance</span><strong id="ePayrollValue">—</strong></div>
+        <div class="row"><span>Other employer overhead</span><strong id="eOtherValue">—</strong></div>
+        <div class="row"><span>Total annual employment cost</span><strong id="eTotalCost">—</strong></div>
+      </div>
+      <div class="note">This is a planning estimate. Actual award obligations, workers compensation premiums, payroll tax, insurance and overhead vary by business and jurisdiction.</div>
+    </section>
+  </section>
