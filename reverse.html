@@ -1,0 +1,78 @@
+  <!-- PTY/ABN TO TFN -->
+  <section class="calc-panel" id="panel-reverse" hidden>
+    <section class="card">
+      <div class="section-top">
+        <div>
+          <h2>Enter the PTY/ABN rate</h2>
+          <div class="help">Enter your ordinary and agreed overtime invoice rates, before GST, to estimate an equivalent TFN employee base rate.</div>
+        </div>
+        <span class="mode-pill">PTY/ABN → TFN</span>
+      </div>
+      <div class="grid two" style="margin-top:14px">
+        <label><span class="label">Ordinary PTY/ABN rate ($/hr)</span><input id="rPtyRateInput" type="number" min="0" step="0.01" value="70"></label>
+        <label><span class="label">Ordinary hours per week</span><input id="rOrdinaryHours" type="number" min="0" step="0.5" value="40"></label>
+        <label><span class="label">Overtime 1 PTY/ABN rate ($/hr)</span><input id="rPtyHalfRate" type="number" min="0" step="0.01" placeholder="Same as ordinary rate"><div class="help">Enter your agreed rate. Leave blank to use the ordinary rate.</div></label>
+        <label><span class="label">Overtime 1 hours per week</span><input id="rHalfHours" type="number" min="0" step="0.5" value="10"></label>
+        <label><span class="label">Overtime 2 PTY/ABN rate ($/hr)</span><input id="rPtyDoubleRate" type="number" min="0" step="0.01" placeholder="Same as ordinary rate"><div class="help">Use for a second overtime or weekend rate, if needed.</div></label>
+        <label><span class="label">Overtime 2 hours per week</span><input id="rDoubleHours" type="number" min="0" step="0.5" value="0"></label>
+        <label style="grid-column:1/-1"><span class="label">Weekly TFN allowances ($)</span><input id="rAllowances" type="number" min="0" step="5" value="0"></label>
+      </div>
+      <div class="grid two" style="margin-top:14px">
+        <label class="check"><input id="rCasual" type="checkbox"><span><strong>Equivalent TFN role is casual</strong></span></label>
+        <label><span class="label">Casual loading %</span><input id="rCasualRate" type="number" min="0" max="100" step="0.5" value="25"></label>
+      </div>
+      <label class="check" style="margin-top:14px"><input id="rWHM" type="checkbox"><span><strong>Use working holiday maker tax</strong></span></label>
+    </section>
+    <div id="rComparisonError" class="notice" role="alert" hidden></div>
+    <section class="card hero-card">
+      <div class="stat-title">Equivalent TFN base rate</div>
+      <div id="rTfnRate" class="big accent">—</div>
+      <div class="help">Approximate employee base hourly rate under the assumptions below.</div>
+      <div class="grid four" style="margin-top:14px">
+        <div><div class="stat-title">Gross TFN working week</div><div id="rGrossWeek" class="medium">—</div></div>
+        <div><div class="stat-title">PTY/ABN weekly invoice</div><div id="rPtyWeekly" class="medium">—</div></div>
+        <div><div class="stat-title">Annual TFN package value</div><div id="rPackageValue" class="medium">—</div></div>
+        <div><div class="stat-title">Annual taxable TFN income</div><div id="rTaxable" class="medium">—</div></div>
+      </div>
+    </section>
+    <section class="card">
+      <div class="stat-title">Estimated TFN after-tax take-home</div>
+      <div id="rTakeHomeWeekly" class="big good">—</div>
+      <div class="help">Average per calendar week based on the annual estimate.</div>
+      <div class="grid four" style="margin-top:14px">
+        <div><div class="stat-title">Average weekly tax</div><div id="rWeeklyTax" class="medium">—</div></div>
+        <div><div class="stat-title">Weekly super estimate</div><div id="rWeeklySuper" class="medium">—</div></div>
+        <div><div class="stat-title">Annual super</div><div id="rAnnualSuper" class="medium">—</div></div>
+        <div><div class="stat-title">Annual after tax</div><div id="rAnnualAfterTax" class="medium">—</div></div>
+      </div>
+    </section>
+    <details class="card" open>
+      <summary>PTY/ABN → TFN comparison settings</summary>
+      <div class="grid two" style="margin-top:14px">
+        <label><span class="label">TFN overtime 1 rate ($/hr)</span><input id="rTfnOvertimeRate" type="number" min="0" step="0.01" value="67.50"><div class="help">Enter the actual employee overtime hourly rate you want to compare against.</div></label>
+        <label><span class="label">TFN overtime 2 / double-time rate ($/hr)</span><input id="rTfnDoubleTimeRate" type="number" min="0" step="0.01" value="90.00"><div class="help">Enter the actual second overtime or double-time hourly rate.</div></label>
+        <label><span class="label">Super %</span><input id="rSuperRate" type="number" min="0" max="30" step="0.1" value="12"></label>
+        <label><span class="label">Annual leave days</span><input id="rLeaveDays" type="number" min="0" max="365" step="0.5" value="20"><div class="help">Default: 20 working days. Uses your normal working days per week to calculate leave pay.</div></label>
+        <label><span class="label">Paid public holiday days</span><input id="rPublicHolidayDays" type="number" min="0" max="20" step="1" value="10"><div class="help">Default: 10. Edit for the relevant state/territory and year.</div></label>
+        <label><span class="label">Normal working days per week</span><input id="rWorkingDays" type="number" min="1" max="7" step="1" value="5"></label>
+        <label><span class="label">Leave loading %</span><input id="rLeaveLoading" type="number" min="0" max="100" step="0.5" value="0"><div class="help">Default: 0%.</div></label>
+        <label><span class="label">PTY/ABN billable weeks</span><input id="rBillableWeeks" type="number" min="1" max="52" step="1" value="48"></label>
+        <label><span class="label">PTY/ABN overhead / insurance / admin %</span><input id="rOverhead" type="number" min="0" max="50" step="0.5" value="5"></label>
+        <label><span class="label">Payroll tax % (optional)</span><input id="rPayrollTaxRate" type="number" min="0" max="20" step="0.01" value="0"><div class="help">Enter the applicable employer rate if liable; otherwise leave at 0%.</div></label>
+      </div>
+    </details>
+    <section class="card">
+      <h2>How the reverse comparison fits together</h2>
+      <div class="rows grid two">
+        <div class="row"><span>Annual PTY/ABN revenue</span><strong id="rAnnualPtyRevenue">—</strong></div>
+        <div class="row"><span>PTY/ABN overhead allowance</span><strong id="rOverheadValue">—</strong></div>
+        <div class="row"><span>Payroll tax allowance</span><strong id="rPayrollValue">—</strong></div>
+        <div class="row"><span>Paid annual leave value</span><strong id="rPaidLeave">—</strong></div>
+        <div class="row"><span>Paid public holiday value</span><strong id="rPublicHolidayValue">—</strong></div>
+        <div class="row"><span>Public holiday non-billable hours</span><strong id="rPublicHolidayHours">—</strong></div>
+        <div class="row"><span>Leave loading</span><strong id="rLeaveLoadingValue">—</strong></div>
+        <div class="row"><span>TFN annual super</span><strong id="rSuperValue">—</strong></div>
+      </div>
+      <div class="note">Weekly invoice = ordinary hours × ordinary rate + overtime 1 hours × overtime 1 rate + overtime 2 hours × overtime 2 rate, before GST. Annual revenue uses billable weeks and deducts non-billable public holiday hours at the ordinary rate. TFN overtime uses the separate hourly rates entered above.</div>
+    </section>
+  </section>
