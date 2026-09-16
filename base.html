@@ -1,0 +1,35 @@
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html" aria-label="Subbie Calculator home">
+      <img src="logo.svg" alt="Subbie Calculator logo">
+      <span class="brand-copy"><strong>Subbie Calculator</strong><small>TFN ↔ PTY/ABN</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Calculator</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="hero-copy">
+    <span class="eyebrow">Australian subcontractor pay calculator</span>
+    <h1>Work out the rate that makes sense.</h1>
+    <p class="lede">Compare TFN and PTY/ABN rates, work backwards from a subcontractor rate to an equivalent TFN rate, or estimate an employer’s true hourly cost and charge-out rate.</p>
+  </section>
+
+  <div class="calc-tabs" role="tablist" aria-label="Choose calculator">
+    <button class="calc-tab active" id="tab-forward" type="button" data-target="forward" aria-controls="panel-forward">
+      <span class="calc-title">TFN → PTY/ABN</span>
+      <span class="calc-label">Employee to subcontractor</span>
+    </button>
+    <button class="calc-tab" id="tab-reverse" type="button" data-target="reverse" aria-controls="panel-reverse">
+      <span class="calc-title">PTY/ABN → TFN</span>
+      <span class="calc-label">Subcontractor to employee</span>
+    </button>
+    <button class="calc-tab" id="tab-employer" type="button" data-target="employer" aria-controls="panel-employer">
+      <span class="calc-title">What to charge for an employee</span>
+      <span class="calc-label">True cost &amp; charge-out</span>
+    </button>
+  </div>
