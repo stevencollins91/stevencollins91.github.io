@@ -1,0 +1,117 @@
+  <!-- ORIGINAL TFN TO PTY/ABN -->
+  <section class="calc-panel" id="panel-forward">
+    <section class="card">
+      <div class="section-top">
+        <div><h2>Enter your TFN pay</h2></div>
+        <span class="mode-pill">TFN → PTY/ABN</span>
+      </div>
+      <div class="pay-mode" role="group" aria-label="Wage entry method">
+        <button type="button" data-pay-prefix="f" data-pay-mode="hourly" aria-pressed="true">Hourly rate</button>
+        <button type="button" data-pay-prefix="f" data-pay-mode="weekly" aria-pressed="false">Weekly gross wages</button>
+      </div>
+      <label id="fWeeklyField" hidden style="display:block;margin-bottom:16px">
+        <span class="label">Gross wages for the week ($)</span>
+        <input id="fWeeklyGrossInput" type="number" min="0" step="0.01" aria-describedby="fWeeklyHelp">
+        <div class="help" id="fWeeklyHelp">Total before tax, including overtime, casual loading and allowances, excluding employer super. Enter any allowances below as the portion already included in this total. Keep your hours below so we can estimate the ordinary and overtime split.</div>
+      </label>
+      <div id="fPayError" class="notice" role="alert" hidden></div>
+      <div class="grid two">
+        <label><span class="label">Ordinary hours worked</span><input id="fOrdinaryHours" type="number" min="0" max="100" step="0.5" value="40"></label>
+        <label id="fHourlyField"><span class="label">Base rate per hour ($)</span><input id="fRate" type="number" min="0" step="0.5" value="45"></label>
+        <label><span class="label">Overtime hours</span><input id="fHalfHours" type="number" min="0" max="100" step="0.5" value="10"></label>
+        <label><span class="label">Overtime rate ($/hr)</span><input id="fOvertimeRate" type="number" min="0" step="0.01" value="67.50"><div class="help">Enter the actual hourly overtime rate paid.</div></label>
+        <label><span class="label">Double-time hours</span><input id="fDoubleHours" type="number" min="0" max="100" step="0.5" value="0"></label>
+        <label><span class="label">Double-time rate ($/hr)</span><input id="fDoubleTimeRate" type="number" min="0" step="0.01" value="90.00"><div class="help">Enter the actual hourly double-time rate paid.</div></label>
+        <label style="grid-column:1/-1"><span class="label">Weekly allowances ($)</span><input id="fAllowances" type="number" min="0" step="5" value="250"><div class="help">Travel, meal and other weekly allowances. For this rough tax estimate they are treated as taxable.</div></label>
+      </div>
+      <div class="grid two" style="margin-top:14px">
+        <label class="check"><input id="fCasual" type="checkbox"><span><strong>Employee is casual</strong><span class="help" style="display:block">Hourly mode adds casual loading. Weekly gross already includes it. Casual status also adjusts paid leave.</span></span></label>
+        <label><span class="label">Casual loading %</span><input id="fCasualRate" type="number" min="0" max="100" step="0.5" value="25"><div class="help">Default: 25%.</div></label>
+      </div>
+      <div id="fCasualNotice" class="notice" hidden>Casual mode is on. Paid annual leave and leave loading are removed from the employment package to avoid double-counting both casual loading and paid leave.</div>
+      <label class="check" style="margin-top:14px"><input id="fWHM" type="checkbox"><span><strong>Use working holiday maker tax</strong><span class="help" style="display:block">Uses WHM rates: 15% to $45,000, then 30% / 37% / 45%.</span></span></label>
+    </section>
+    <section class="card">
+      <div class="grid four">
+        <div><div class="stat-title">Total hours</div><div id="fTotalHours" class="medium">—</div></div>
+        <div><div class="stat-title">Effective ordinary rate</div><div id="fEffectiveRate" class="medium">—</div></div>
+        <div><div class="stat-title">TFN gross weekly income</div><div id="fWeeklyPay" class="medium">—</div></div>
+        <div><div class="stat-title">Gross average / hour</div><div id="fAverageHourly" class="medium">—</div></div>
+      </div>
+      <div class="rows grid two">
+        <div class="row"><span>Ordinary pay</span><strong id="fOrdinaryPay">—</strong></div>
+        <div class="row"><span>Overtime pay</span><strong id="fHalfPay">—</strong></div>
+        <div class="row"><span>Double-time pay</span><strong id="fDoublePay">—</strong></div>
+        <div class="row"><span>Weekly allowances</span><strong id="fAllowancePay">—</strong></div>
+      </div>
+    </section>
+    <section class="card">
+      <div class="stat-title">Superannuation estimate</div>
+      <div id="fWeeklySuper" class="big accent">—</div>
+      <div class="help">Estimated weekly super based on Ordinary Time Earnings (OTE) for ordinary hours only in this simplified calculator.</div>
+      <div class="grid three" style="margin-top:14px">
+        <div><div class="stat-title">OTE ordinary pay / week</div><div id="fOTEWeekly" class="medium">—</div></div>
+        <div><div class="stat-title">Super rate</div><div id="fSuperRateDisplay" class="medium">—</div></div>
+        <div><div class="stat-title">Estimated annual super</div><div id="fAnnualSuper" class="medium">—</div></div>
+      </div>
+    </section>
+    <section class="card hero-card">
+      <div class="stat-title">Estimated TFN after-tax take-home</div>
+      <div id="fAfterTaxWeekly" class="big good">—</div>
+      <div class="help">Average cash per calendar week after estimated income tax and Medicare levy.</div>
+      <div class="grid four" style="margin-top:14px">
+        <div><div class="stat-title">Annual taxable income</div><div id="fTaxableIncome" class="medium">—</div></div>
+        <div><div class="stat-title">Annual income tax</div><div id="fIncomeTax" class="medium">—</div></div>
+        <div><div class="stat-title">Annual Medicare levy</div><div id="fMedicare" class="medium">—</div></div>
+        <div><div class="stat-title">Annual after tax</div><div id="fAnnualAfterTax" class="medium">—</div></div>
+      </div>
+      <div class="card" style="margin-top:14px;padding:14px;background:var(--soft)">
+        <div class="stat-title" style="margin-bottom:10px">Weekly tax breakdown</div>
+        <div class="grid three">
+          <div><div class="stat-title">Weekly income tax</div><div id="fWeeklyIncomeTax" class="medium">—</div></div>
+          <div><div class="stat-title">Weekly Medicare levy</div><div id="fWeeklyMedicare" class="medium">—</div></div>
+          <div><div class="stat-title">Weekly total tax</div><div id="fWeeklyTotalTax" class="medium">—</div></div>
+        </div>
+      </div>
+      <div id="fTaxModeText" class="note"></div>
+    </section>
+    <section class="card hero-card">
+      <div class="stat-title">Equivalent PTY/ABN rate needed</div>
+      <div id="fPtyRate" class="big accent">—</div>
+      <div class="help">Per billable hour, before GST.</div>
+      <div class="grid three" style="margin-top:14px">
+        <div><div class="stat-title">Weekly PTY/ABN invoice</div><div id="fPtyWeekly" class="medium">—</div></div>
+        <div><div class="stat-title">Annual PTY/ABN revenue</div><div id="fPtyAnnual" class="medium">—</div></div>
+        <div><div class="stat-title">Invoice incl. GST / hr</div><div id="fWithGst" class="medium">—</div></div>
+      </div>
+    </section>
+    <details class="card" open>
+      <summary>TFN & PTY/ABN comparison settings</summary>
+      <div class="grid two" style="margin-top:14px">
+        <label><span class="label">Super %</span><input id="fSuperRate" type="number" min="0" max="30" step="0.1" value="12"></label>
+        <label><span class="label">Annual leave days</span><input id="fLeaveDays" type="number" min="0" max="365" step="0.5" value="20"><div class="help">Default: 20 working days. Uses your normal working days per week to calculate leave pay.</div></label>
+        <label><span class="label">Paid public holiday days</span><input id="fPublicHolidayDays" type="number" min="0" max="20" step="1" value="10"><div class="help">Default: 10. Public holidays differ by state/territory and calendar year.</div></label>
+        <label><span class="label">Normal working days per week</span><input id="fWorkingDays" type="number" min="1" max="7" step="1" value="5"></label>
+        <label><span class="label">Leave loading %</span><input id="fLeaveLoading" type="number" min="0" max="100" step="0.5" value="0"><div class="help">Default: 0%. Enter your award, EBA or contract rate if it applies.</div></label>
+        <label><span class="label">Working / billable weeks</span><input id="fBillableWeeks" type="number" min="1" max="52" step="1" value="48"></label>
+        <label><span class="label">PTY/ABN overhead / insurance / admin %</span><input id="fOverhead" type="number" min="0" max="50" step="0.5" value="5"></label>
+        <label><span class="label">Payroll tax % (optional)</span><input id="fPayrollTaxRate" type="number" min="0" max="20" step="0.01" value="0"><div class="help">Enter the rate that applies to the employer if liable. Payroll-tax rates and thresholds vary by state and territory. Leave at 0% if it does not apply.</div></label>
+      </div>
+    </details>
+    <section class="card">
+      <h2>PTY/ABN cost build</h2>
+      <div class="rows grid two">
+        <div class="row"><span>Working wages</span><strong id="fAnnualWorkingWages">—</strong></div>
+        <div class="row"><span>Annual allowances</span><strong id="fAnnualAllowances">—</strong></div>
+        <div class="row"><span>Paid annual leave</span><strong id="fPaidLeave">—</strong></div>
+        <div class="row"><span>Paid public holiday value</span><strong id="fPublicHolidayValue">—</strong></div>
+        <div class="row"><span>Public holiday non-billable hours</span><strong id="fPublicHolidayHours">—</strong></div>
+        <div class="row"><span>Leave loading</span><strong id="fLeaveLoadingValue">—</strong></div>
+        <div class="row"><span>Super (OTE basis)</span><strong id="fSuperValue">—</strong></div>
+        <div class="row"><span>TFN employment value</span><strong id="fEmploymentValue">—</strong></div>
+        <div class="row"><span>Payroll tax added</span><strong id="fPayrollTaxValue">—</strong></div>
+        <div class="row"><span>PTY/ABN overhead allowance</span><strong id="fOverheadValue">—</strong></div>
+        <div class="row"><span>Required PTY/ABN revenue</span><strong id="fRequiredRevenue">—</strong></div>
+      </div>
+    </section>
+  </section>
